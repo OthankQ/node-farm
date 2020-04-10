@@ -27,10 +27,23 @@ const http = require('http');
 // Server
 
 const server = http.createServer((req, res) => {
-    res.end('You have reached our server');
+    const pathName = req.url;
+
+    if (pathName === '/' || pathName === '/overview') {
+        res.end('You have asked for an overview page');
+    } else if (pathName === '/product') {
+        res.end('You have asked for a product page');
+    } else {
+        res.writeHead(404, {
+            'Content-type': 'text/html',
+            'our-own-header': 'hello-world'
+        });
+
+        res.end('<h1>Cannot find the requested page</h1>')
+    }
 })
 const port = '8000';
 
 server.listen(port, '127.0.0.1', () => {
-    console.log(`Listening to ${port}...`);
+    console.log(`//////////////\nListening to port ${port}...\n/////////////`);
 })
